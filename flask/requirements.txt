@@ -1,0 +1,11 @@
+Flask
+Flask-RESTful
+pillow
+pdf2image
+werkzeug
+numpy
+python-json-logger
+pyyaml
+flask_cors
+blinker
+prometheus-flask-exporter

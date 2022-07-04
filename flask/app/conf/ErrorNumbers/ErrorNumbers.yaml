@@ -1,0 +1,42 @@
+# coding=utf-8
+# Documentation of all Fehlerbildnummers at this microservice
+- Description:
+    name: document-converter-topdf
+    domain: giga-infra
+    developer: R.Schier/ Team Alf
+- '00000001':
+    message: delivered File is not a pdf, jpg or png File
+    rootcause: wrong delivery
+    severity: medium #minor / medium / major
+    implementation: ressource.converter, on API EP POST
+    automation: no
+- '00000002':
+    message: No File delivered in request
+    rootcause: In Key file no Value
+    severity: medium #minor / medium / major
+    implementation: ressource.converter, on API EP POST
+    automation: no
+- '00000003':
+    message: No Body Value File delivered in request
+    rootcause: No Key file in request
+    severity: medium #minor / medium / major
+    implementation: ressource.converter, on API EP POST
+    automation: no
+- '00000004':
+    message: Can not Load PDF File with PIL Image
+    rootcause: major
+    severity: medium #minor / medium / major
+    implementation: ressource.converter.Modul Convert to PDF
+    automation: no
+- '00000005':
+    message: Can not Load Picture File
+    rootcause: unkown
+    severity: major #minor / medium / major
+    implementation: ressource.converter.Modul Convert Picture to PDF
+    automation: no
+- '00000006':
+    message: Uploaded File is too big. Max 4 MB allowed
+    rootcause: unkown
+    severity: minor #minor / medium / major
+    implementation: ressource.converter, on API EP POST
+    automation: no
