@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "2391df4d-f8b2-4809-b426-241adfd4914d",
+		"name": "CONVERTER",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13776769"
+	},
+	"item": [
+		{
+			"name": "to local",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/Schier/Desktop/HomeOfficeRS.pdf"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/document-converter-pdf/v1/convert?file",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"document-converter-pdf",
+						"v1",
+						"convert"
+					],
+					"query": [
+						{
+							"key": "file",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8080/actuator/prometheus",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"actuator",
+						"prometheus"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,116 @@
+openapi: 3.0.1
+info:
+  title: document-converter-topdf
+  description: Python  based microservice which provides clean functionality using gamma correction. It gets file, transfers it to image, does gamma correction, creates result pdf.
+  contact:
+    name: Team Alf
+    url: https://gard.telekom.de/gardwiki/display/DGHB/Team+Team42
+    email: Roland.Schier@telekom.de
+  version: 1.0.0
+paths:
+  /actuator/health:
+    post:
+      security:
+        - m2m-authorization:
+            - giga:cga:all-area-access
+            - giga:converter-topdf:write
+      summary: Test ping endpoint
+      operationId: getPong
+      description: Returns HTTP ok
+      responses:
+        200:
+          description: OK.Successful pong message
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: pong
+
+
+  /infra/v1/document-converter-pdf/convert:
+    post:
+      security:
+        - m2m-authorization:
+            - "giga:cga:all-area-access"
+            - "giga:converter-topdf:write"
+      tags:
+        - converter
+      summary: clean PDF/JPEG/PNG via image modification to PDF
+      operationId: cleanPDF
+
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        200:
+          description: OK. Clean completed
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        400:
+          description: Bad request. Incorrect input params.
+          Possible Values 8009465800000001 delivered File is not a pdf, jpg or png File,
+          8009465800000002 No File delivered in request, 8009465800000003 No Body Value File delivered in request,
+          8009465800000004 Can not Load PDF File with PIL Image, 8009465800000005 Can not Load Picture File
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TMFError'
+        413:
+          description: Uploaded File is too big. Max 4 MB allowed. Possible Values
+            8009465800000006 Uploaded File is too big. Max 4 MB allowed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TMFError'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TMFError'
+components:
+  securitySchemes:
+    m2m-authorization:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: ${rhsso.token.endpoint}
+          scopes:
+            'giga:cga:all-area-access': General Access Scope
+            'giga:converter-topdf:write': Write Access Scope
+  schemas:
+    TMFError:
+      title: TMFError
+      type: object
+      properties:
+        code:
+          type: string
+        reason:
+          type: string
+        status:
+          type: string
+        message:
+          type: string
+        referenceError:
+          type: string
+          description: "Application related code (as defined in the API or from
+              a common list). This would be the application specific error (such
+              as the 16-digit 'Fehlerbildnummer'). To support zero prefixed error
+              code numbers (0000123412341234), the string format is used. The error
+              code MUST be 16 digits in length for coherence across applications."
+          minLength: 16
+          maxLength: 16
+      required:
+        - code
+        - status
+        - referenceError
